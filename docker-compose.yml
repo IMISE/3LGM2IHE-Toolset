@@ -1,0 +1,70 @@
+# SNIK-Toolset, Maintainer: Konrad Höffner <konrad.hoeffner@imise.uni-leipzig.de>, originally Sebastian Stäubert  <sebastian.staeubert@imise.uni-leipzig.de>
+
+services:
+
+  virtuoso:
+    image: openlink/virtuoso-opensource-7
+    profiles: ["virtuoso"]
+    environment:
+      - DBA_PASSWORD=changeme
+      - VIRT_DATABASE_ERRORLOGLEVEL=3
+      - VIRT_PARAMETERS_NUMBEROFBUFFERS=10000
+      - VIRT_PARAMETERS_MAXDIRTYBUFFERS=6000
+      - VIRT_HTTPSERVER_SERVERPORT=8890
+      - VIRT_SPARQL_DEFAULTGRAPH=https://www.3lgm2.de/resource/ihe
+      - VIRT_SPARQL_RESULTSETMAXROWS=50000
+      - VIRT_SPARQL_MAXQUERYCOSTESTIMATIONTIME=400
+      - VIRT_SPARQL_MAXQUERYEXECUTIONTIME=120
+      - VIRT_SPARQL_DEFAULTQUERY=select distinct * {?s ?p ?o.} LIMIT 100
+      - VIRT_PLUGINS_-=-
+    volumes:
+      - ./rdf:/database/data
+      - ./virtuoso:/opt/virtuoso-opensource/initdb.d
+      - virtuoso-data:/database/data
+    ports:
+      - "127.0.0.1:9001:8890"
+      - "127.0.0.1:1111:1111"
+    restart: unless-stopped
+
+  lodview:
+    image: linkeddatacenter/lodview
+    profiles: ["lodview"]
+    environment:
+      # server side, so we use the port on the internal port
+      #- LodViewendpoint=http://virtuoso:8890/sparql
+      # custom env variables of the linkeddatacenter LodView container, see https://hub.docker.com/r/linkeddatacenter/lodview
+      # there is a newer way to map environment variables in LodView but they didn't publish that yet as Docker image
+      # some seem to be ignored
+      - LODVIEW_URISPACE=https://www.3lgm2.de/resource/
+      - LODVIEW_URISPACEPREFIX=ihe
+      - LODVIEW_SPARQLENDPOINT=http://virtuoso:8890/sparql
+      - LODVIEW_PUBLICURLPREFIX=auto
+      - LODVIEW_HOME_TITLE=3LGM² IHE
+      - LODVIEW_HOME_ABSTRACT=Puts the IHE into the 3LGM²
+      - LODVIEW_HOME_DESCRIPTION=The more I, H and E there is in 3LGM² the better, so we use all of them
+    ports:
+      - "127.0.0.1:9002:8080"
+    depends_on:
+      - virtuoso
+    restart: unless-stopped
+
+  rickview:
+    build: ./rickview
+    profiles: ["rickview"]
+    environment:
+      - RICKVIEW_KB_FILE=/rdf/ihe.ttl
+      - RICKVIEW_BASE_PATH=/ihe
+      - RICKVIEW_NAMESPACE=https://www.3lgm2.de/resource/ihe/
+      - RICKVIEW_TITLE=IHE
+      - RICKVIEW_SUBTITLE=3LGM² IHE
+      - RICKVIEW_EXAMPLES=Actor IHEConcept IntegrationProfile
+      - RICKVIEW_HOMEPAGE=https://3lgm2ihe.de/de/
+      - RICKVIEW_ENDPOINT=http://virtuoso:8890/sparql
+    volumes:
+      - ./rdf:/rdf
+    ports:
+      - "127.0.0.1:9003:8080"
+    restart: unless-stopped
+
+volumes:
+  virtuoso-data:

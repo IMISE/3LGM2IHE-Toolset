@@ -1,0 +1,5 @@
+[submodule "rickview"]
+	path = rickview
+	url = git@github.com:konradhoeffner/rickview.git
+	ignore = untracked
+	branch = master
