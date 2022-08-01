@@ -1,4 +1,4 @@
-# SNIK-Toolset, Maintainer: Konrad Höffner <konrad.hoeffner@imise.uni-leipzig.de>, originally Sebastian Stäubert  <sebastian.staeubert@imise.uni-leipzig.de>
+# 3LGM² IHE-Toolset, Maintainer: Konrad Höffner <konrad.hoeffner@imise.uni-leipzig.de>, Sebastian Stäubert  <sebastian.staeubert@imise.uni-leipzig.de>
 
 services:
 
@@ -20,7 +20,6 @@ services:
     volumes:
       - ./rdf:/database/data
       - ./virtuoso:/opt/virtuoso-opensource/initdb.d
-      - virtuoso-data:/database/data
     ports:
       - "127.0.0.1:9001:8890"
       - "127.0.0.1:1111:1111"
@@ -65,6 +64,3 @@ services:
     ports:
       - "127.0.0.1:9003:8080"
     restart: unless-stopped
-
-volumes:
-  virtuoso-data:
