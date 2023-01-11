@@ -48,11 +48,11 @@ services:
     restart: unless-stopped
 
   rickview:
-    build: ./rickview
+    image: ghcr.io/konradhoeffner/rickview:0.0.7
     profiles: ["rickview"]
     environment:
       - RICKVIEW_KB_FILE=/rdf/ihe.ttl
-      - RICKVIEW_BASE_PATH=/ihe
+      - RICKVIEW_BASE=/ihe
       - RICKVIEW_PREFIX=ihe
       - RICKVIEW_NAMESPACE=https://www.3lgm2.de/resource/ihe/
       - RICKVIEW_TITLE=IHE
