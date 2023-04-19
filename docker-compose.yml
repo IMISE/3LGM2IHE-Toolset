@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
 
   rickview:
-    image: ghcr.io/konradhoeffner/rickview:0.0.11
+    image: ghcr.io/konradhoeffner/rickview:0.0.12
     profiles: ["rickview"]
     environment:
       - RICKVIEW_KB_FILE=/rdf/ihe.ttl
