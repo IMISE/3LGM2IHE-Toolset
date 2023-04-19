@@ -22,7 +22,7 @@ services:
       - ./virtuoso:/opt/virtuoso-opensource/initdb.d
     ports:
       - "127.0.0.1:9001:8890"
-      - "127.0.0.1:1111:1111"
+      #- "127.0.0.1:1111:1111"
     restart: unless-stopped
 
   lodview:
@@ -48,17 +48,17 @@ services:
     restart: unless-stopped
 
   rickview:
-    image: ghcr.io/konradhoeffner/rickview:0.0.7
+    image: ghcr.io/konradhoeffner/rickview:0.0.11
     profiles: ["rickview"]
     environment:
       - RICKVIEW_KB_FILE=/rdf/ihe.ttl
-      - RICKVIEW_BASE=/ihe
+      - RICKVIEW_BASE=/resource/ihe
       - RICKVIEW_PREFIX=ihe
       - RICKVIEW_NAMESPACE=https://www.3lgm2.de/resource/ihe/
       - RICKVIEW_TITLE=IHE
-      - RICKVIEW_SUBTITLE=3LGM² IHE
+      - RICKVIEW_SUBTITLE=3LGM2IHE
       - RICKVIEW_EXAMPLES=Actor IHEConcept IntegrationProfile
-      - RICKVIEW_HOMEPAGE=https://3lgm2ihe.de/de/
+      - RICKVIEW_HOMEPAGE=https://www.3lgm2.de
       - RICKVIEW_ENDPOINT=http://virtuoso:8890/sparql
     volumes:
       - ./rdf:/rdf
