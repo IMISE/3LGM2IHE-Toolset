@@ -55,11 +55,11 @@ services:
       - RICKVIEW_BASE=/resource/ihe
       - RICKVIEW_PREFIX=ihe
       - RICKVIEW_NAMESPACE=https://www.3lgm2.de/resource/ihe/
-      - RICKVIEW_TITLE=IHE
+      - RICKVIEW_TITLE=IHE Ontology
       - RICKVIEW_SUBTITLE=3LGM2IHE
-      - RICKVIEW_EXAMPLES=Actor IHEConcept IntegrationProfile
+      - RICKVIEW_EXAMPLES=IHEConcept Domain IntegrationProfile Actor
       - RICKVIEW_HOMEPAGE=https://www.3lgm2.de
-      - RICKVIEW_ENDPOINT=http://virtuoso:8890/sparql
+      - RICKVIEW_ENDPOINT=http://www.3lgm2.de/sparql
     volumes:
       - ./rdf:/rdf
     ports:
